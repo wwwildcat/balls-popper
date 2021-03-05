@@ -1,0 +1,36 @@
+<!doctype html>
+
+<html>
+    <head>
+        <title>Balls Pop</title>
+        <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Lemon&text=BPYaceloprsu"
+        >
+        <link rel="stylesheet" href="src/style.css">
+        <script src="src/js/script.js" type="module"></script>
+    </head>
+
+    <body>
+        <div id="start" class="container">
+            <header class="header">Balls Popper</header>
+            <div class="start__rules">
+                Move the needle left and right with arrow keys and pop as many balls as possible until time is up!
+            </div>
+            <button class="start__button">Start game</button>
+        </div>
+
+        <div id="game" class="hidden">
+            <div class="game__needle"></div>
+            <div class="game__timer">Time left: <span class="game__timer-value">60</span></div>
+        </div>
+
+        <div id="result" class="container hidden">
+            <header class="header">Your score</header>
+            <div class="result__content">
+                <div>Popped: <span class="result__pop-value"></span></div>
+                <div>Missed: <span class="result__miss-value"></span></div>
+            </div>
+        </div>
+    </body>
+</html>
