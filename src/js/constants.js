@@ -13,4 +13,3 @@ export const MAX_SIZE_RATE = 0.35;
 
 export const GAME_DURATION = 60;
 export const TIMER_STEP = 1000;
-

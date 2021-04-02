@@ -1,6 +1,6 @@
-import { NEEDLE_LENGTH, MAX_BLOW_RATE } from './constants.js';
-import { getCircleX } from './math_utils.js';
-import { getGradient, getSize, getInitialTranslate, getWindDuration } from './random_utils.js';
+import { NEEDLE_LENGTH, MAX_BLOW_RATE } from './constants';
+import { getCircleX } from './math_utils';
+import { getGradient, getSize, getInitialTranslate, getWindDuration } from './random_utils';
 
 const animateBall = ({ duration, draw, timing }) => {
     const start = performance.now();
@@ -9,7 +9,7 @@ const animateBall = ({ duration, draw, timing }) => {
         let timeFraction = (time - start) / duration;
         if (timeFraction > 1) timeFraction = 1;
 
-        let progress = timing(timeFraction);
+        const progress = timing(timeFraction);
 
         draw(progress);
 
@@ -17,7 +17,7 @@ const animateBall = ({ duration, draw, timing }) => {
             requestAnimationFrame(animate);
         }
     });
-}
+};
 
 export default class Ball {
     constructor(container, totalWidth) {
@@ -39,66 +39,66 @@ export default class Ball {
         const { node, size } = this;
 
         animateBall({
-            duration: duration,
-            timing: x => x,
-            draw: progress => {
+            duration,
+            timing: (x) => x,
+            draw: (progress) => {
                 node.style.setProperty('--translate-y', `${-progress * (totalHeight + size)}px`);
 
                 const needleFraction = (totalHeight - NEEDLE_LENGTH) / (totalHeight + size);
 
-                if(progress >= needleFraction) {
+                if (progress >= needleFraction) {
                     const { x: ballLeft, y: ballTop } = node.getBoundingClientRect();
-                    const needleX = document.querySelector('.game__needle').getBoundingClientRect().x;
+                    const needleX = document.querySelector('.game__needle').getBoundingClientRect()
+                        .x;
 
-                if (ballTop + size / 2 >= NEEDLE_LENGTH
-                    && needleX >= getCircleX(ballLeft, ballTop, size, NEEDLE_LENGTH, -1)
-                    && needleX <= getCircleX(ballLeft, ballTop, size, NEEDLE_LENGTH, 1))
-                    {
+                    if (
+                        ballTop + size / 2 >= NEEDLE_LENGTH &&
+                        needleX >= getCircleX(ballLeft, ballTop, size, NEEDLE_LENGTH, -1) &&
+                        needleX <= getCircleX(ballLeft, ballTop, size, NEEDLE_LENGTH, 1)
+                    ) {
                         node.style.display = 'none';
                         this.isPopped = true;
                     }
                 }
 
-                if(progress === 1) {
+                if (progress === 1) {
                     this.getResult(popCb, missCb);
                     this.node.remove();
                     this.node = null;
                 }
-            }
+            },
         });
     }
 
     blow(totalWidth, direction) {
         const { node, size } = this;
-        const currentTranslate = parseFloat(getComputedStyle(node).getPropertyValue('--translate-x'));
+        const currentTranslate = parseFloat(
+            getComputedStyle(node).getPropertyValue('--translate-x')
+        );
 
-        const blowFraction = direction === 'left'
-            ? 1 - (currentTranslate + size / 2) / totalWidth
-            : (currentTranslate + size / 2) / totalWidth;
+        const blowFraction =
+            direction === 'left'
+                ? 1 - (currentTranslate + size / 2) / totalWidth
+                : (currentTranslate + size / 2) / totalWidth;
         const maxBlowValue = totalWidth * MAX_BLOW_RATE;
-        const blowValue = direction === 'left'
-            ? blowFraction * maxBlowValue
-            : - blowFraction * maxBlowValue;
+        const blowValue =
+            direction === 'left' ? blowFraction * maxBlowValue : -blowFraction * maxBlowValue;
 
         animateBall({
             duration: getWindDuration(),
-            timing: x => x,
-            draw: progress => {
+            timing: (x) => x,
+            draw: (progress) => {
                 let newTranslate = currentTranslate + progress * blowValue;
 
                 if (newTranslate < 0) newTranslate = 0;
                 if (newTranslate > totalWidth - size) newTranslate = totalWidth - size;
 
                 node.style.setProperty('--translate-x', `${newTranslate}px`);
-            }
+            },
         });
     }
 
     getResult(popCb, missCb) {
-        if (this.isPopped) {
-            popCb();
-        } else {
-            missCb();
-        }
+        this.isPopped ? popCb() : missCb();
     }
 }
