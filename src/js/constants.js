@@ -11,5 +11,7 @@ export const MAX_BLOW_RATE = 0.5;
 export const MIN_SIZE_RATE = 0.12;
 export const MAX_SIZE_RATE = 0.35;
 
+export const DELAY_RATE = 0.01;
+
 export const GAME_DURATION = 60;
 export const TIMER_STEP = 1000;

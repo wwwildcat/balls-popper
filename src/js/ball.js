@@ -1,4 +1,4 @@
-import { NEEDLE_LENGTH, MAX_BLOW_RATE } from './constants';
+import { NEEDLE_LENGTH, MAX_BLOW_RATE, DELAY_RATE } from './constants';
 import { getCircleX } from './math_utils';
 import { getGradient, getSize, getInitialTranslate, getWindDuration } from './random_utils';
 
@@ -38,6 +38,8 @@ export default class Ball {
     rise(duration, totalHeight, popCb, missCb) {
         const { node, size } = this;
 
+        node.style.setProperty('--delay', `${duration * DELAY_RATE}ms`);
+
         animateBall({
             duration,
             timing: (x) => x,
@@ -56,7 +58,7 @@ export default class Ball {
                         needleX >= getCircleX(ballLeft, ballTop, size, NEEDLE_LENGTH, -1) &&
                         needleX <= getCircleX(ballLeft, ballTop, size, NEEDLE_LENGTH, 1)
                     ) {
-                        node.style.display = 'none';
+                        node.style.opacity = 0;
                         this.isPopped = true;
                     }
                 }

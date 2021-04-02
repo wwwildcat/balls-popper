@@ -91,6 +91,7 @@ body {
 .game__ball {
     --translate-x: 0;
     --translate-y: 0;
+    --delay: 50ms;
 
     box-sizing: border-box;
 
@@ -100,6 +101,8 @@ body {
     border-radius: 50%;
 
     transform: translateX(var(--translate-x)) translateY(var(--translate-y));
+
+    transition: opacity 1ms ease --delay;
 }
 
 .result__content {
